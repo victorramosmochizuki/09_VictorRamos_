@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <head>
+        <title>Prueba</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </head>
+    <h:body style=" background-image: url('https://i.pinimg.com/736x/a8/73/50/a87350a374972c1737d53688f08da1d7.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; color: #FFFFFF">
+        <center>
+            <h:form>
+                <h1 style=" background-color: #243A73; font-weight: normal; font-size: 100px; font-family: fantasy; text-transform: uppercase; text-shadow: 7px 4px 5px #354259;">Speech To Text</h1>
+                <p:panelGrid columns="1" >
+
+                    <p:commandButton value="Escuchar" update="txt" action="#{escuchaC.prueba()}" style=" background-color: #1F4690; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;"/>
+                    <p:inputTextarea id="txt" value="#{escuchaC.model.resultado}" rows="15" cols="100" style="resize: none; border-color: #3AB0FF;" placeholder="Esperando mensaje ..."/>
+
+                </p:panelGrid>
+            </h:form>
+        </center>
+
+
+    </h:body>
+</html>

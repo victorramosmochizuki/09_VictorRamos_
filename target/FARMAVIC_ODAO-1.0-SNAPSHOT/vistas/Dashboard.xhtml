@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <title>Listado de Clientes</title>
+            <f:event listener="#{clienteC.listar()}" type="preRenderView" />
+            <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+        </h:head>
+        <h:body>
+            <h:form>
+                <p:fragment>
+                    <div align="center">
+                        <h4>TIEMPO DE REINICIO DE SESION</h4>
+                        <h:outputText id="contador" value="#{barcharC.number}" style="font-size: 36px;font-weight: bold;color: #D32F2F"></h:outputText>
+                        <p:progressBar value="#{barcharC.number}" id="contador1" displayOnly="true"/>
+                        <p:poll id="poll" interval="1" process="contador" listener="#{barcharC.decrementoNumero()}" update="contador contador1"></p:poll>  
+                        <p:idleMonitor timeout="1">
+                            <p:ajax event="active" listener="#{barcharC.activarSesion()}"></p:ajax>
+                        </p:idleMonitor>
+                    </div>
+                </p:fragment>
+            </h:form>
+
+            <h:form>
+                <center>
+                    <h1>Cantidad de clientes por genéro</h1>
+                </center>
+                <div class="card">
+                    <p:pieChart model="#{barcharC.pieModel}" style="width: 100%; height: 500px;"/>
+                </div>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+
+</ui:composition>

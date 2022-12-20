@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Farmavic</title>
+
+    </h:head>
+    <body>
+
+        <center>
+            <h1>Bienvenido a Farmavic</h1>
+        </center>
+
+        <p:growl id="mensaje" showDetail="true" />
+        <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+        <h:form>
+            <p:panelMenu style="width:250px">
+                <p:submenu label="Tablas Maestras" >
+                    <p:menuitem value="Vendedor" icon="pi pi-save" url="./faces/vistas/vendedor.xhtml" />
+                    <p:menuitem value="Cliente" icon="pi pi-save" url="./faces/vistas/cliente.xhtml" />
+                    <p:menuitem value="Medicamento" icon="pi pi-save" url="./faces/vistas/medicamento.xhtml" />
+                    <p:menuitem value="Proveedor" icon="pi pi-save" url="./faces/vistas/proveedor.xhtml" />
+                </p:submenu>
+                <p:separator />
+                <p:submenu label="Tablas Transaccionales" >
+                    <p:menuitem value="Venta" icon="pi pi-save" url="./faces/vistas/BoletaDetalleV.xhtml" />  
+                    <p:menuitem value="Compra" icon="pi pi-save" url="./faces/vistas/Compra.xhtml" /> 
+                </p:submenu>
+                <p:separator />
+                <p:submenu label="Consulta-Detalle" >
+                    <p:menuitem value="Consulta-Detalle" icon="pi pi-save" url="./faces/vistas/Consulta.xhtml" />                    
+                </p:submenu>
+            </p:panelMenu>
+        </h:form>
+
+
+    </body>
+</html>

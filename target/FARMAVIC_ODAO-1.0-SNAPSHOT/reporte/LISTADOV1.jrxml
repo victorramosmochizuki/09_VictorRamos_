@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LISTADO" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FARMAVIC_ORACLE"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="plsql">
+		<![CDATA[SELECT * FROM vListarv2]]>
+	</queryString>
+	<field name="IDPROV" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="IDPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="IDPROV"/>
+	</field>
+	<field name="NOMPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMPROV"/>
+	</field>
+	<field name="RUCPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="RUCPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="RUCPROV"/>
+	</field>
+	<field name="TELPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TELPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="TELPROV"/>
+	</field>
+	<field name="EMAPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMAPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMAPROV"/>
+	</field>
+	<field name="TIPPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TIPPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="TIPPROV"/>
+	</field>
+	<field name="NCOMPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NCOMPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="NCOMPROV"/>
+	</field>
+	<field name="ABREPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ABREPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="ABREPROV"/>
+	</field>
+	<field name="DIRPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DIRPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="DIRPROV"/>
+	</field>
+	<field name="UBI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="UBI"/>
+		<property name="com.jaspersoft.studio.field.label" value="UBI"/>
+	</field>
+	<field name="ESTPROV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ESTPROV"/>
+		<property name="com.jaspersoft.studio.field.label" value="ESTPROV"/>
+	</field>
+	<field name="ORDEN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ORDEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="ORDEN"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{NOMPROV}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="843" height="24" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="ff649bda-bbd1-4c2d-bd67-21f69ad64bbf"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343" uuid="a7ae31ce-9474-4e4b-9627-eb9152ff7b80"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="60" y="2" width="90" height="20" uuid="bcd8dc0d-8193-42a4-b0bc-579e29479fb9"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{NOMPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="150" y="2" width="90" height="20" uuid="d99b453a-3899-4f15-a23e-2d91d9400373"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{RUCPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="240" y="2" width="90" height="20" uuid="f55c1d21-d5ea-461b-bf7d-678eb4cef342"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{TELPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="331" y="0" width="89" height="20" uuid="56e17be9-5026-4014-9194-e1e16c62e31d"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{EMAPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="420" y="0" width="90" height="20" uuid="e39b2cf3-752b-4ecf-ade7-f4b231c7fefa"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{TIPPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="510" y="0" width="100" height="20" uuid="a1a1a147-292a-43c9-acfb-7467c73e3376"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{NCOMPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="620" y="2" width="100" height="20" uuid="f1972598-5172-4f98-bcaf-42fc6e42861b"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{ABREPROV}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="723" y="1" width="90" height="20" uuid="1d0338d8-7365-43d5-b2f2-0b40e59da45c"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{DIRPROV}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{RUCPROV}]]></groupExpression>
+	</group>
+	<group name="TELPROV">
+		<groupExpression><![CDATA[$F{TELPROV}]]></groupExpression>
+	</group>
+	<group name="EMAPROV">
+		<groupExpression><![CDATA[$F{EMAPROV}]]></groupExpression>
+	</group>
+	<group name="TIPPROV">
+		<groupExpression><![CDATA[$F{TIPPROV}]]></groupExpression>
+	</group>
+	<group name="NCOMPROV">
+		<groupExpression><![CDATA[$F{NCOMPROV}]]></groupExpression>
+	</group>
+	<group name="ABREPROV">
+		<groupExpression><![CDATA[$F{ABREPROV}]]></groupExpression>
+	</group>
+	<group name="DIRPROV">
+		<groupExpression><![CDATA[$F{DIRPROV}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="260" y="0" width="280" height="62" uuid="0d036760-2add-4dce-9577-ab15c629af1d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[FARMAVIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="270" y="62" width="240" height="22" uuid="7e68fc8e-26f0-4a63-b729-a3e31a2386e4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE PROVEEDOR]]></text>
+			</staticText>
+			<image>
+				<reportElement x="650" y="10" width="140" height="80" uuid="14dcdd6d-7cb2-4266-a02c-42fac46c381c"/>
+				<imageExpression><![CDATA["C:/Users/VICTOR/Downloads/CANALES/logov3/logo-01.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="50" y="110" width="60" height="24" forecolor="#052BFF" uuid="a070c634-05e9-43fa-9b5b-05882f8bb2c8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="110" width="60" height="24" forecolor="#052BFF" uuid="4bd85dbe-d182-4533-92e9-9dfa423a8a7b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="110" width="70" height="24" forecolor="#052BFF" uuid="84381861-372e-45b2-bcf5-0d6b7ebb3e03">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="110" width="60" height="24" forecolor="#052BFF" uuid="09017231-0361-411d-b5b9-ea500f0c5db8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMAIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="110" width="60" height="24" forecolor="#052BFF" uuid="7896e35d-2057-4dd7-bbed-cf78007eacc2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="110" width="140" height="24" forecolor="#052BFF" uuid="56719b94-8bd6-46f5-8ebc-779281489026">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE COMERCIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="110" width="90" height="24" forecolor="#052BFF" uuid="f268af0b-c2c5-4c5d-ad98-287b8cf2939b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ABREVIACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="110" width="90" height="24" forecolor="#052BFF" uuid="39aff2e8-99a2-40bb-9a1e-976124988377">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7acc4807-1f51-4005-9074-73202dd5d471"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="e9d2002a-c8ee-4649-a258-640dad29110c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="fa5e88d5-a011-4e32-8f12-ce923f903111"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

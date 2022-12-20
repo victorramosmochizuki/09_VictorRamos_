@@ -1,0 +1,422 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Plantilla.xhtml">
+
+    <!--xmlns:ui="http://xmlns.jcp.org/jsf/facelets"-->
+
+    <!--xmlns:ui="http://java.sun.com/jsf/facelets"-->
+
+    <ui:define name="content">
+
+        <h:head>
+
+            <title>Listado de Proveedor</title>
+            <f:event listener="#{proveedorC.listar()}" type="preRenderView" />
+            <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+        </h:head>
+
+
+        <h:body  > 
+
+
+<!--            <h:form>
+
+                <p:panelGrid columns="1" >
+
+                    <p:commandButton value="Escuchar" update="txt" action="#{escuchaC.prueba()}" style=" background-color: #1F4690; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;"/>
+                    <p:inputTextarea id="txt" value="#{escuchaC.model.resultado}" rows="15" cols="100" style="resize: none; border-color: #3AB0FF;" placeholder="Esperando mensaje ..."/>
+
+                </p:panelGrid>
+            </h:form>-->
+
+            <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+
+            <center>
+                <h1>Mantenimiento de Proveedores</h1>
+            </center>
+
+            <!--Manda msj al costado-->
+            <p:growl id="mensaje" showDetail="true" />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+            <h:form id="frmProveedor">
+
+<!--                <p:panelGrid >
+                    <p:row>
+
+
+
+                        <p:commandButton value="Escuchar" update="frmProveedor, txt" action="#{escuchaC.prueba()}"/>
+                        <p:inputTextarea id="txt" value="#{escuchaC.model.resultado}"  placeholder="Esperando mensaje ..."/>
+                    </p:row>
+                </p:panelGrid>-->
+
+                <center>
+
+                    <p:panelGrid >
+
+                        <f:facet name= "header">INGRESE LOS DATOS DEL PROVEEDOR</f:facet>
+
+                        <br>
+                        </br>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="nombre" value="RAZON SOCIAL: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="nombre" style="width: 230px" value="#{proveedorC.pro.NOMPROV}" maxlength="30">
+                                    <!--Solo numeros-->
+                                    <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_' '_.]/" />
+                                    <!--Sirve para nombre mouse-->
+                                    <p:tooltip for="nombre" value="Nombre de su empresa" trackMouse="focus"/> 
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="ruc" value="RUC: " />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Buscar" action="#{proveedorC.buscarRUC()}" update="frmProveedor" style="width: 230px" >
+                                    <p:inputText id="ruc" value="#{proveedorC.pro.RUCPROV}" maxlength="11" required="true" requiredMessage="Falta Ruc" >
+                                        <p:keyFilter regEx="/[0-9]/"/> 
+                                        <!--validacion de ruc-->
+                                        <f:validator validatorId="validarRuc" />
+                                        <!--Hace q aparezca de inmediato-->
+                                        <p:ajax update="msgRuc" event="keyup" /> 
+                                        <!--Valida ruc existente-->
+                                        <f:validator validatorId ="validarRucexis" />
+                                        <p:tooltip for="ruc" value="Ingrese su Ruc" trackMouse="focus"/>
+                                    </p:inputText>
+                                </p:commandButton>
+                                <!--Para q salga msj al costado-->
+                                <p:message for="ruc" id="msgRuc" display="text" />
+                            </p:column>
+                        </p:row>
+
+
+
+                        <p:row> 
+                            <p:column>
+                                <p:outputLabel value="TELEFONO: " />     
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Escuchar" update="frmProveedor, telefono" action="#{proveedorC.prueba()}">
+                                    <p:inputTextarea id="telefono" value="#{proveedorC.pro.TELPROV}">
+<!--                                        <p:keyFilter regEx="/[0-9]/" />-->
+                                        <p:tooltip for="telefono" value="Telefono o numero de celular" trackMouse="focus"/>  
+                                    </p:inputTextarea>
+                                </p:commandButton>
+                            </p:column>                       
+                        </p:row>
+
+                        <p:row> 
+                            <p:column>
+                                <p:outputLabel for="email" value="EMAIL: " />
+                            </p:column>
+                            <p:column>                                                   
+                                <p:inputText id="email" value="#{proveedorC.pro.EMAPROV}" maxlength="30" >
+                                    <!--<p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_0_:_@_._-]/" />-->
+                                    <f:validator validatorId="validarEmail" />
+                                    <p:ajax update="msgEmail" event="keyup" /> 
+                                    <p:tooltip for="email" value="Ingrese el email de la empresa" trackMouse="focus"/> 
+                                </p:inputText>
+                                <p:message for="email" id="msgEmail" display="text"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="tipo" value="TIPO: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio id="tipo" value="#{proveedorC.pro.TIPPROV}">
+                                    <f:selectItem itemLabel="DISTRIBUIDOR" itemValue="DISTRIBUIDOR" />
+                                    <f:selectItem itemLabel="LABORATORIO" itemValue="LABORATORIO" />
+                                </p:selectOneRadio>
+                                <p:tooltip for="tipo" value="Seleccione tipo de la empresa" trackMouse="focus"/> 
+                            </p:column>
+                        </p:row>
+
+                        <p:row> 
+                            <p:column>
+                                <p:outputLabel for="ncomercial" value="NCOMERCIAL: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="ncomercial" value="#{proveedorC.pro.NCOMPROV}" maxlength="80">
+                                    <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_' ']/" />
+                                    <p:tooltip for="ncomercial" value="Nombre comercial de la empresa" trackMouse="focus"/> 
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+
+                        <p:row> 
+                            <p:column>
+                                <p:outputLabel  value="ABREVIATURA: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="abre"  value="#{proveedorC.pro.ABREVPROV}">
+                                    <!--<p:keyFilter regEx="/[0-9]/" />-->
+                                    <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_' ']/" />
+                                    <p:tooltip for="abre" value="Abreviatura de la empresa" trackMouse="focus"/> 
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+
+                        <p:row> 
+                            <p:column>
+                                <p:outputLabel value="DIRECCION: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="direccion" value="#{proveedorC.pro.DIRPROV}" maxlength="30">
+                                    <p:tooltip for="direccion" value="Direccion de la empresa" trackMouse="focus"/> 
+                                </p:inputText>
+                                <p:tooltip for="direccion" value="Ubigeo de la empresa" trackMouse="focus"/> 
+                            </p:column>
+                        </p:row>
+
+
+
+
+                    </p:panelGrid>
+                    <br>
+                    </br>
+                    <p:commandButton value="REGISTRAR" update="frmProveedor, :tablaPro, mensaje" actionListener="#{proveedorC.registrar()}"/>
+
+
+                </center>
+
+
+
+
+            </h:form>
+
+            <h:form >
+                <center>
+                    <h:commandLink>
+                        <h:graphicImage url="./../imagenes/LOGO.png" width="50px"/>
+                        <p:dataExporter type="pdf" target=":tablaPro:dataProveedor" fileName="Listado de proveedor" />
+                    </h:commandLink> 
+
+
+                    <h:commandLink>
+                        <h:graphicImage url="./../imagenes/excel.png" width="50px"/>
+                        <p:dataExporter type="xls" target=":tablaPro:dataProveedor" fileName="Listado de proveedor" />
+                    </h:commandLink>
+                </center>
+            </h:form>
+
+
+
+            <!--EXPORTAR Listado de Proveedores JASPER REPORT-->
+            <h:form id="formDescargaProveedor">
+                <center>
+                    <p:commandButton value="Exportar Listado de Proveedor" actionListener="#{proveedorC.reporteProveedor()}" 
+                                     ajax="false" style="background-color:yellowgreen;color:black;font-weight:bold;"/>
+
+                </center>
+
+            </h:form> 
+
+
+
+
+
+            <!--Tabla de listado-->
+            <h:form id="tablaPro">
+
+                <p:dataTable var="prov" id="dataProveedor" value="#{proveedorC.listadopro}"
+
+                             widgetVar="tblProveedor" selection="#{proveedorC.pro}" 
+                             resizableColumns="true" 
+                             selectionMode="single"
+                             rowKey="#{prov.IDPROV}"
+
+
+                             paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,15,20"
+
+
+                             rowStyleClass="registroVinculado">
+
+                    <!--                <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Buscar:"/>
+                                            <h:inputText id="globalFilter" onkeyup="PF('tblProveedor').filter()" style="width:200px"/>
+                                        </p:outputPanel>
+                                    </f:facet>-->
+
+                    <f:facet name= "header">
+
+                        EN TOTAL HAY #{fn:length(proveedorC.listadopro)} REGISTROS.                    
+                        <center>
+                            LISTADO DE PROVEEDOR 
+                        </center>                   
+                    </f:facet>
+
+                    <p:column headerText="ID">
+
+                        <h:outputText value="#{prov.IDPROV}" />
+                    </p:column>
+
+                    <p:column  sortBy="#{prov.NOMPROV}" filterBy="#{prov.NOMPROV}" headerText="RAZON SOCIAL" >                            
+                        <h:outputText value="#{prov.NOMPROV}" />                                      
+                    </p:column>
+
+                    <p:column  filterBy="#{prov.RUCPROV}" style="width:120px" headerText="RUC" >
+                        <h:outputText value="#{prov.RUCPROV}" />
+                    </p:column>               
+
+                    <p:column filterBy="#{tblpro.ruc}" style="width:120px" headerText="TELÉFONO">
+
+                        <h:outputText value="#{prov.TELPROV}" />
+                    </p:column>
+
+                    <p:column headerText="EMAIL" filterBy="#{prov.EMAPROV}" >
+
+                        <h:outputText value="#{prov.EMAPROV}" />
+                    </p:column>
+
+                    <p:column headerText="TIPO" filterBy="#{prov.TIPPROV}" >
+
+                        <h:outputText value="#{prov.TIPPROV}" />
+                    </p:column>
+
+                    <p:column headerText="N. COMERCIAL" filterBy="#{prov.NCOMPROV}" >
+
+                        <h:outputText value="#{prov.NCOMPROV}" />
+                    </p:column>
+
+                    <p:column headerText="ABREVIATURA" filterBy="#{prov.ABREVPROV}" >
+
+                        <h:outputText value="#{prov.ABREVPROV}" />
+                    </p:column>
+
+                    <p:column headerText="DIRECCIÓN" filterBy="#{prov.DIRPROV}" >
+
+                        <h:outputText value="#{prov.DIRPROV}" />
+                    </p:column>
+
+
+
+                    <!--                <p:column headerText="ACCIONES">
+                                        <p:commandButton value="ELIMINAR" update="dataProveedor" actionListener="#{proveedorC.eliminar()}"/>
+                                        <p:commandButton value="OBTENER"  oncomplete="PF('wdlgDatos').show()"  update=":frmProveedor"/> 
+                                    </p:column>-->
+
+                    <!--                Frmodificar-->
+
+
+
+
+                    <f:facet name="footer">
+                        EN TOTAL HAY #{fn:length(proveedorC.listadopro)} REGISTROS.
+                    </f:facet>
+
+                    <!--                FUNCTIONS AÑADI-->
+
+
+                </p:dataTable> 
+                <p:contextMenu for="dataProveedor">
+                    <p:menuitem value="Modificar" icon="pi pi-pencil" oncomplete="PF('wdlgDatos').show()" update=":Frmodificar">
+                    </p:menuitem>
+                    <p:menuitem value="Eliminar" icon="pi pi-trash" actionListener="#{proveedorC.eliminar()}" update="tablaPro, mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas eliminar?"/>                         
+                    </p:menuitem>
+                </p:contextMenu>
+
+
+
+
+
+
+
+            </h:form>
+
+
+            <p:dialog header="Datos del Proveedor" widgetVar="wdlgDatos" id="dlgDatos">
+
+                <h:form id="Frmodificar" >
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="Nombre" /> 
+                        <p:inputText value="#{proveedorC.pro.NOMPROV}" maxlength="30" />
+
+                        <p:outputLabel value="Ruc" /> 
+                        <p:inputText value="#{proveedorC.pro.RUCPROV}" maxlength="11" />
+
+                        <p:outputLabel value="Telefono" /> 
+                        <p:inputText value="#{proveedorC.pro.TELPROV}" maxlength="9" />
+
+                        <p:outputLabel value="Email" /> 
+                        <p:inputText value="#{proveedorC.pro.EMAPROV}" maxlength="30" />
+
+                        <h:outputLabel value="Tipo" />
+                        <h:selectOneMenu id="tipo" value="#{proveedorC.pro.TIPPROV}" required="true" label="Tipo">
+                            <f:selectItem itemLabel="Selecione:" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="DISTRIBUIDOR" itemValue="1" />
+                            <f:selectItem itemLabel="LABORATORIO" itemValue="2" />
+                        </h:selectOneMenu>
+                        <p:message for="tipo" />
+                        <h:outputText value="#{proveedorC.pro.TIPPROV}" />
+
+                        <p:outputLabel value="N.Comercial" /> 
+                        <p:inputText value="#{proveedorC.pro.NCOMPROV}" maxlength="80" />
+
+                        <p:outputLabel value="Abreviatura" /> 
+                        <p:inputText value="#{proveedorC.pro.ABREVPROV}" maxlength="8" />
+
+                        <p:outputLabel value="Dirección" /> 
+                        <p:inputText value="#{proveedorC.pro.DIRPROV}" maxlength="250" />
+
+
+
+
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();" />
+
+                        <p:commandButton value="Modificar" actionListener="#{proveedorC.modificar()}" 
+                                         update=":frmProveedor tablaPro, mensaje" oncomplete="PF('wdlgDatos').hide();" >
+                            <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+
+                        <!--Confirma los dialogos de arriba-->
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+                    </p:panelGrid>
+
+
+
+
+                </h:form>
+
+
+            </p:dialog>
+
+
+        </h:body>
+
+
+
+
+
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_CLIENTE_L" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="730" leftMargin="56" rightMargin="56" topMargin="56" bottomMargin="56" uuid="ba1c2fcf-4c66-4d60-9df8-cfc83011c3a1">
+	<property name="template.engine" value="tabular_template"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DBFARMAVIC"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#000000">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="5d7374fc-c378-47f2-ae41-640f36ef2150">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DBFARMAVIC"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<queryString language="SQL">
+			<![CDATA[SELECT * FROM R_PERSONAL_L]]>
+		</queryString>
+		<field name="IDVEN" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="IDVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="IDVEN"/>
+		</field>
+		<field name="NOMVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NOMVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="NOMVEN"/>
+		</field>
+		<field name="DNIVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DNIVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="DNIVEN"/>
+		</field>
+		<field name="EMAVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="EMAVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="EMAVEN"/>
+		</field>
+		<field name="TELFVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="TELFVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="TELFVEN"/>
+		</field>
+		<field name="TIPOVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="TIPOVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="TIPOVEN"/>
+		</field>
+		<field name="DIRVEN" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DIRVEN"/>
+			<property name="com.jaspersoft.studio.field.label" value="DIRVEN"/>
+		</field>
+	</subDataset>
+	<queryString language="plsql">
+		<![CDATA[SELECT * FROM R_PERSONAL_L]]>
+	</queryString>
+	<field name="IDVEN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="IDVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="IDVEN"/>
+	</field>
+	<field name="NOMVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMVEN"/>
+	</field>
+	<field name="DNIVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DNIVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="DNIVEN"/>
+	</field>
+	<field name="EMAVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMAVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMAVEN"/>
+	</field>
+	<field name="TELFVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TELFVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="TELFVEN"/>
+	</field>
+	<field name="TIPOVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TIPOVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="TIPOVEN"/>
+	</field>
+	<field name="DIRVEN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DIRVEN"/>
+		<property name="com.jaspersoft.studio.field.label" value="DIRVEN"/>
+	</field>
+	<title>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="544" height="66" backcolor="#6BBA36" uuid="75968b5b-d9b9-408c-944c-158c077dc5cf"/>
+				<box>
+					<pen lineWidth="2.0"/>
+				</box>
+				<staticText>
+					<reportElement style="Title" x="10" y="0" width="534" height="66" uuid="77409e86-3434-4dd2-a3fe-5b83030a0cea"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<pen lineColor="#000000"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Gill Sans Ultra Bold Condensed" size="40" isBold="false"/>
+					</textElement>
+					<text><![CDATA[FARMACIA LEO MIDAS]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="544" height="30" forecolor="#000000" backcolor="#BEFFB5" uuid="9ea0e7ef-8dfd-40bf-93aa-5a8062ba1296"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="370" y="10" width="164" height="20" forecolor="#FF110D" backcolor="#FF110D" uuid="f5694cda-f223-4906-b871-45f8c39b819f"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="1" width="360" height="31" uuid="b14277af-d654-4da1-806f-f2fe7ddf962d"/>
+					<textElement textAlignment="Left">
+						<font fontName="Eras Bold ITC" size="26"/>
+					</textElement>
+					<text><![CDATA[Listado del Personal]]></text>
+				</staticText>
+			</frame>
+			<image>
+				<reportElement x="540" y="6" width="179" height="90" uuid="29561fb7-e9f6-4d0b-89b2-dc48b8bc9204"/>
+				<imageExpression><![CDATA["C:/Users/Renato/Music/FARMAVIC_/src/main/webapp/imagenes/LOGO_FARMAVIC.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="721" height="25" forecolor="#D0B48E" backcolor="#BEFFB5" uuid="6a6468e3-8ed5-464b-a7c0-f8f72f55c11a"/>
+				<box>
+					<pen lineWidth="2.0" lineColor="#D0B48E"/>
+				</box>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="670" y="2" width="40" height="20" forecolor="#FF110D" uuid="f5b10cde-b73f-438f-9bf0-9f9f1b3fe2bc"/>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="590" y="2" width="80" height="20" forecolor="#FF110D" uuid="6fcabcd3-d065-4c6e-81b9-192b82515f9c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="220" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<componentElement>
+				<reportElement x="0" y="0" width="721" height="220" uuid="6e385d67-42c7-42ea-ba22-f5771daed2c7">
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tableDataset" uuid="965a6c4e-4cda-4b89-9652-3f458c399a18">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="180" uuid="de2a877b-b583-4090-8015-c3efbbed2f90">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="180" height="30" forecolor="#FFFFFF" uuid="60833b49-f62f-4ae1-946b-632cce5aa526"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Apellidos y Nombres]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" isPrintRepeatedValues="false" x="0" y="0" width="180" height="40" uuid="47ef3d2d-304c-4ba4-9ee9-ce01cb0c78ff"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="7193d426-f6e4-4d53-b9c2-d21b17fc0aa3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="80" height="30" forecolor="#FFFFFF" uuid="0c039c33-8ed8-46a2-9baa-afa4cc320843"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Dni]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="80" height="40" uuid="97d6e4de-4dd5-4390-a5d2-51f1ac3bfba2"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DNIVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="9d42f0b3-ced9-4902-b3d3-c49ccbf04f78">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="130" height="30" forecolor="#FFFFFF" uuid="b21a5986-1d1a-4af5-9c02-97cb51c4ed91"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Email]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="130" height="40" uuid="e8e4d485-dab1-4f83-85d8-7564ef0b53a8"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{EMAVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="e3bf3f9c-469e-4a52-92f8-9237166c307c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="6f3932b1-4203-44c9-b971-e1fa92d689de"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Teléfono]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="90" height="40" uuid="8613a58f-3988-4e43-922e-5e8f1425d666"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TELFVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="58da1d0c-4845-4b24-9736-82522bc9ee91">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" uuid="0f22846c-0220-4a30-ab52-3eb270c5366f"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="40" height="40" uuid="f87697e8-d068-40b6-bd54-585c3c19cb90"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TIPOVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="191" uuid="f5fda97e-a890-4804-9601-5c36894bb65a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<pen lineColor="#FFFFFF"/>
+							</box>
+						</jr:tableHeader>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="191" height="30" forecolor="#FFFFFF" uuid="dc0d331b-c50b-427b-bbd2-8a366e7dd383"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Dirección]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="191" height="40" uuid="c1176bff-1be3-4e59-b73c-66089cad58bc"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DIRVEN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

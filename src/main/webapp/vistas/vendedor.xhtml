@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <title>Listado de Vendedores</title>
+            <f:event listener="#{vendedorC.listar()}" type="preRenderView" />
+            <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+        </h:head>
+        <h:body >
+
+            <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+            <center>
+                <h1>Mantenimiento de Vendedores</h1>
+            </center>
+
+            <p:growl id="mensaje" severity="info, fatal" showDetail="true" showSummary="true"  />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+            <h:form id="form">
+
+                <center>
+                    <!--        Formulario del Vendedor    >-->   
+                    <p:panelGrid columns="3" styleClass="showcase-text-align-left">
+                        <f:facet name= "header"> INGRESAR DATOS DEL VENDEDOR</f:facet>
+
+                        <p:outputLabel for="dni" value="DNI: "/>
+                        <p:commandButton value="Buscar" action="#{vendedorC.buscarDNI()}"  update="form">
+                            <p:inputText style="width: 230px"
+                                         id="dni" value="#{vendedorC.ven.DNIVEN}"
+                                         required="true" requiredMessage="Falta DNI" 
+                                         maxlength="8" >
+                                <p:keyFilter regEx="/[0-9]/" /> 
+                                <f:validator validatorId="validarDni" />
+                                <p:ajax  update="msgDni" delay="100" event="keyup" />
+                                <p:tooltip for="dni" value="Ingrese su Dni" trackMouse="focus"/>
+                            </p:inputText>&#160;
+                        </p:commandButton>
+                        <p:message id="msgDni" for="dni" showDetail="true" display="text" />
+
+                        <p:outputLabel for="nombre" value="NOMBRE: "/>
+                        <p:inputText style="width: 230px"
+                                     id="nombre" value="#{vendedorC.ven.NOMVEN}"
+                                     maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgNombres" event="keyup" delay="800"  />
+                            <p:tooltip for="nombre" value="Ingrese sus nombres" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgNombres" for="nombre" display="text" />
+
+
+                        <p:outputLabel for="apellido" value="APELLIDO: "/>
+                        <p:inputText style="width: 230px"
+                                     id="apellido" value="#{vendedorC.ven.APEVEN}"
+                                     maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgApellidos" event="keyup" delay="800"  />
+                            <p:tooltip for="apellido" value="Ingrese sus 2 apellidos" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgApellidos" for="apellido" display="text" />
+
+                        <p:outputLabel for="email" value = "EMAIL: " />
+                        <p:inputText style="width: 230px"
+                                     id="email" value ="#{vendedorC.ven.EMAVEN}" maxlength="80" 
+                                     requiredMessage="Ingrese su correo electrónico" >
+                            <f:validator validatorId="validarEmail" />
+                            <p:ajax  update="msgEmail" delay="100" event="keyup" />
+                            <p:tooltip for="email" value="Ingrese su Email" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgEmail" for="email"  showDetail="true" />
+
+                        <p:outputLabel for="telefono" value="TELÉFONO: "/>
+                        <p:inputText style="width: 230px"
+                                     id="telefono" value="#{vendedorC.ven.TELFVEN}"
+                                     requiredMessage="Falta Teléfono" 
+                                     maxlength="9" >
+                            <p:keyFilter regEx="/[0-9]/"/>
+                            <f:validator validatorId="validarTelefono" />
+                            <p:ajax update="msgTelefono" event="keyup" delay="800"  />
+                            <p:tooltip for="telefono" value="Ingresar # Teléfonico" trackMouse="focus"/>
+                        </p:inputText>                   
+                        <p:message id="msgTelefono" for="telefono" showDetail="true"/>
+
+                        <p:outputLabel for="direccion" value="DIRECCIÓN: "/>
+                        <p:inputText style="width: 230px"
+                                     id="direccion" value="#{vendedorC.ven.DIRVEN}"
+                                     requiredMessage="Falta su Dirección" 
+                                     maxlength="50" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgDireccion" event="keyup" delay="100"  />
+                            <p:tooltip for="direccion" value="Ingresar su Dirección" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgDireccion" for="direccion" display="text" showDetail="true"/>
+
+                        <p:outputLabel for="ubigeo" value="DISTRITO: " /> 
+                        <p:autoComplete style="width: 230px"
+                                        id="ubigeo" value="#{vendedorC.ven.IDUBI}" completeMethod="#{vendedorC.completeTextUbigeo(query)}"
+                                        requiredMessage="Falta su Dirección"
+                                        minQueryLength="1">
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:tooltip for="ubigeo" value="Ingresar su Distrito" trackMouse="focus"/>
+                        </p:autoComplete>
+                        <p:message for="ubigeo" display="text" />
+
+                    </p:panelGrid>
+                    <p:commandButton value="Registrar" actionListener="#{vendedorC.registrar()}" update="form :tabla:tablaVen mensaje" />
+                </center>
+            </h:form>
+
+
+            <h:form >
+                <div style="float: right">
+                <p:commandButton value="GENERAL" onclick="this.form.target = '_blank'"
+                                 ajax="false" style="float: right; background-color: gold; width: 100px" 
+                                 icon="pi pi-save" title="ReportePersonal" actionListener="#{vendedorC.verReportePDFMEDI()}"/>
+                <p:commandButton value="Excel" icon="pi pi-file-excel" styleClass="p-mr-2 p-mb-2" style="background-color: green">
+                    <p:dataExporter type="xls" target=":tabla:tablaVen" fileName="Listado de Vendedores" />
+                </p:commandButton>
+                </div>
+            </h:form>
+
+
+            <h:form id="tabla" >
+                <!--  Listado del Cliente -->
+                <center>
+                    <p:dataTable style="width: 100%" var="tblvend" id="tablaVen" value="#{vendedorC.listadoVen}" rows="10" 
+                                 paginator="true" widgetVar="tblVendedor"
+                                 selection="#{vendedorC.ven}" 
+                                 resizableColumns="true" 
+                                 selectionMode="single"
+                                 rowKey="#{tblvend.IDVEN}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                                 rowStyleClass="registroVinculado">
+
+
+                        <f:facet name="header">
+                            <div style="float: left">
+                                <h:form>
+                                    <p:outputLabel value="FILTRO POR: " style="align-content: center; alignment-adjust: central; color:black font-weight:bold "/>
+                                    <center>
+                                        <p:selectOneMenu value="#{vendedorC.listado}" style="width: 100px">
+                                            <f:selectItem itemValue="1" itemLabel="Activos"/> 
+                                            <f:selectItem itemValue="2" itemLabel="Inactivos"/>
+                                            <f:selectItem itemValue="3" itemLabel="Todos"/>
+                                            <p:ajax listener="#{vendedorC.listar()}" update=":tabla:tablaVen"/>
+                                        </p:selectOneMenu>
+                                    </center>
+                                </h:form>
+                            </div>
+                            <center>
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar:"/>
+                                    <h:inputText id="globalFilter" onkeyup="PF('tblVendedor').filter()" style="width:200px"/>
+                                </p:outputPanel>
+                            </center>
+                        </f:facet>
+
+                        <center>
+                            <f:facet name= "header"> LISTADO DE VENDEDORES </f:facet>
+                        </center>
+
+                        <p:column headerText="NOMBRE" sortBy="#{tblvend.NOMVEN}" filterBy="#{tblvend.NOMVEN}" > 
+                            <h:outputText value="#{tblvend.NOMVEN}" /> 
+                        </p:column>
+                        <p:column headerText="APELLIDO" sortBy="#{tblvend.APEVEN}" filterBy="#{tblvend.APEVEN}" > 
+                            <h:outputText value="#{tblvend.APEVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DNI" sortBy="#{tblvend.DNIVEN}" filterBy="#{tblvend.DNIVEN}" style="width: 80px"> 
+                            <h:outputText value="#{tblvend.DNIVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="EMAIL" sortBy="#{tblvend.EMAVEN}" filterBy="#{tblvend.EMAVEN}" style="width: 80px"> 
+                            <h:outputText style="width: 150%" value="#{tblvend.EMAVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="TELÉFONO" sortBy="#{tblvend.TELFVEN}" filterBy="#{tblvend.TELFVEN}" style="width: 90px"> 
+                            <h:outputText value="#{tblvend.TELFVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DIRECCIÓN" sortBy="#{tblvend.DIRVEN}" filterBy="#{tblvend.DIRVEN}" > 
+                            <h:outputText style="width: 50px" value="#{tblvend.DIRVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DISTRITO" style="width: 70px" > 
+                            <h:outputText value="#{tblvend.IDUBI}" /> 
+                        </p:column>
+
+                        <f:facet name="footer">
+                            EN TOTAL HAY #{fn:length(vendedorC.listadoVen)} REGISTROS.
+                        </f:facet>
+                    </p:dataTable>
+                </center>
+                <p:contextMenu for="tablaVen">
+                    <p:menuitem value="Modificar" icon="pi pi-pencil" oncomplete="PF('wdlgDatos').show()" update=":formDialog">
+                    </p:menuitem>
+                    <p:menuitem value="Desactivar" icon="pi pi-trash" actionListener="#{vendedorC.Desactivar()}" update=":tabla:tablaVen mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas Desactivarlo?"/>                         
+                    </p:menuitem>
+                    <p:menuitem value="Eliminar" icon="pi pi-trash" actionListener="#{vendedorC.eliminar()}" update=":tabla:tablaVen mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas eliminarlo?"/>                         
+                    </p:menuitem>
+                </p:contextMenu>
+            </h:form>
+
+            <p:dialog header="MODIFICAR DATOS DEL VENDEDOR" widgetVar="wdlgDatos" id="dlgDatos">
+                <h:form id="formDialog">
+                    <p:panelGrid id="modificarVendedor" columns="2">
+
+                        <p:outputLabel value="NOMBRE: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.NOMVEN}" maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                        </p:inputText>
+
+
+                        <p:outputLabel value="APELLIDO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.APEVEN}" maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="DNI: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.DNIVEN}" maxlength="8" >
+                            <p:keyFilter regEx="/[0-9]/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="EMAIL: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.EMAVEN}" maxlength="8" />
+
+                        <p:outputLabel value="TELÉFONO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.TELFVEN}" maxlength="9" >
+                            <p:keyFilter regEx="/[0-9]/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="DIRECCIÓN: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.DIRVEN}" maxlength="50" />
+
+                        <p:outputLabel value="DISTRITO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.IDUBI}" maxlength="50" />
+
+
+                        <p:commandButton value="Guardar" actionListener="#{vendedorC.modificar()}" 
+                                         update=":tabla:tablaVen mensaje" oncomplete="PF('wdlgDatos').hide();" >
+                            <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();" />
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:body>
+    </ui:define>
+
+</ui:composition>
+

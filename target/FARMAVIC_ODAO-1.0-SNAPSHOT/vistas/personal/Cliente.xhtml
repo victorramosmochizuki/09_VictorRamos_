@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Personal.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <title>Listado de Clientes</title>
+            <f:event listener="#{clienteC.listar()}" type="preRenderView" />
+            <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+        </h:head>
+        <h:body>
+            <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+            <center>
+                <h1>Mantenimiento de Clientes</h1>
+            </center>
+
+            <p:growl id="mensaje" severity="info, fatal" showDetail="true" showSummary="true"  />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+            <h:form id="form">            
+
+                <center>
+                    <!--        Formulario del Cliente    >-->   
+                    <p:panelGrid columns="3" styleClass="showcase-text-align-left">
+                        <f:facet name= "header"> INGRESAR DATOS DEL CLIENTE</f:facet>
+                        <p:outputLabel for="dni" value="DNI: " />
+                        <p:commandButton value="Buscar" action="#{clienteC.buscarDNI()}"  update="form">
+                            <p:inputText style="width: 230px"
+                                         id="dni" value="#{clienteC.cli.DNICLI}"
+                                         required="true" requiredMessage="Falta DNI"
+                                         maxlength="8" >
+                                <p:keyFilter regEx="/[0-9]/" /> 
+                                <f:validator validatorId="validarDni" />
+                                <p:ajax  update="msgDni" delay="800" event="keyup" />
+                                <p:tooltip for="dni" value="Ingrese su Dni" trackMouse="focus"/>
+                            </p:inputText>&#160;
+                        </p:commandButton>
+                        <p:message id="msgDni" for="dni" showDetail="true" display="text" />
+
+                        <p:outputLabel for="nombre" value="NOMBRE: " /> 
+                        <p:inputText style="width: 230px" readonly="readonly" onblur="javascript:this.value = this.value.toUpperCase();"
+                                     id="nombre" value="#{clienteC.cli.NOMCLI}"
+                                     maxlength="30">
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgNombres" event="keyup" delay="800"  />
+                            <p:tooltip for="nombre" value="Ingrese sus nombres" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgNombres" for="nombre" display="text" />
+
+                        <p:outputLabel for="apellido" value="APELLIDO: " /> 
+                        <p:inputText style="width: 230px" 
+                                     id="apellido" value="#{clienteC.cli.APECLI}"
+                                     maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgApellidos" event="keyup" delay="800"  />
+                            <p:tooltip for="apellido" value="Ingrese sus 2 apellidos" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgApellidos" for="apellido" display="text" />
+
+                        <p:outputLabel for="sexo" value="SEXO: " />
+                        <p:selectOneRadio id="sexo" value="#{clienteC.cli.SEXCLI}" 
+                                          required="true" requiredMessage="Falta definir su género">
+                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                            <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            <p:ajax update="msgSexo" event="keyup" delay="800"  />
+                        </p:selectOneRadio>
+                        <p:message id="msgSexo" for="sexo" display="text" />
+
+                        <p:outputLabel for="telefono" value="TELÉFONO: " /> 
+                        <p:inputText id="telefono" value="#{clienteC.cli.TELFCLI}"
+                                     requiredMessage="Falta su # teléfonico"
+                                     maxlength="9">
+                            <p:keyFilter regEx="/[0-9]/"/>
+                            <f:validator validatorId="validarTelefono" />
+                            <p:ajax update="msgTelefono" event="keyup" delay="800"  />
+                            <p:tooltip for="telefono" value="Ingresar # Teléfonico" trackMouse="focus"/>
+                        </p:inputText>                   
+                        <p:message id="msgTelefono" for="telefono"/>
+
+                    </p:panelGrid>
+                    <p:commandButton value="Registrar" actionListener="#{clienteC.registrar()}" update="form :tabla:tablaCli mensaje" />
+                    <p:commandButton value="Limpiar" />
+                </center>
+            </h:form>
+
+            <h:form >
+                <div style="float: right">
+                    <p:commandButton value="GENERAR REPORTE" onclick="this.form.target = '_blank'"
+                                     ajax="false" style="float: right; background-color: gold; width: 200px" 
+                                     icon="pi pi-save" title="ReporteClientes" actionListener="#{clienteC.verReportePDFCLI()}"/>
+                    <!--                    <p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="p-mr-2 p-mb-2" style="background-color: red">
+                                            <p:dataExporter type="pdf" target=":tabla:tablaCli" fileName="Listado de Clientes" />
+                                        </p:commandButton>-->
+                    <p:commandButton value="Excel" icon="pi pi-file-excel" styleClass="p-mr-2 p-mb-2" style="background-color: green">
+                        <p:dataExporter type="xls" target=":tabla:tablaCli" fileName="Listado de Clientes" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+
+            <h:form id="tabla" >
+                <!--  Listado del Cliente -->
+                <center>
+                    <p:dataTable style="width: 100%" var="tblclis" id="tablaCli" value="#{clienteC.listadoCli}" rows="10" 
+                                 paginator="true" widgetVar="tblCliente"
+                                 selection="#{clienteC.cli}" 
+                                 resizableColumns="true" 
+                                 selectionMode="single"
+                                 rowKey="#{tblclis.IDCLI}"
+
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                                 rowStyleClass="registroVinculado">
+
+                        <f:facet name="header">
+                            <div style="float: left">
+                                <h:form>
+                                    <p:outputLabel value="FILTRO POR: " style="align-content: center; alignment-adjust: central; color:black font-weight:bold "/>
+                                    <center>
+                                        <p:selectOneMenu value="#{clienteC.listado}" style="width: 100px">
+                                            <f:selectItem itemValue="1" itemLabel="Activos"/> 
+                                            <f:selectItem itemValue="2" itemLabel="Inactivos"/>
+                                            <f:selectItem itemValue="3" itemLabel="Todos"/>
+                                            <p:ajax listener="#{clienteC.listar()}" update=":tabla:tablaCli"/>
+                                        </p:selectOneMenu>
+                                    </center>
+                                </h:form>
+                            </div>
+                            <center>
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar:"/>
+                                    <h:inputText id="globalFilter" onkeyup="PF('tblCliente').filter()" style="width:200px"/>
+                                </p:outputPanel>
+                            </center>
+                        </f:facet>
+
+                        <center>
+                            <f:facet name= "header"> LISTADO DE CLIENTES </f:facet>
+                        </center>
+
+                        <p:column headerText="ID" style="width: 40px; alignment-adjust: central;column-rule-color: royalblue" > 
+                            <h:outputText value="#{tblclis.IDCLI}" /> 
+                        </p:column>
+
+                        <p:column headerText="NOMBRE" style="width: 280px" sortBy="#{tblclis.NOMCLI}" filterBy="#{tblclis.NOMCLI}" >
+                            <h:outputText value="#{tblclis.NOMCLI}" />
+                        </p:column>
+
+                        <p:column headerText="APELLIDO" style="width: 280px" sortBy="#{tblclis.APECLI}" filterBy="#{tblclis.APECLI}" >
+                            <h:outputText value="#{tblclis.APECLI}" />
+                        </p:column>
+
+                        <p:column headerText="DNI" sortBy="#{tblclis.DNICLI}" filterBy="#{tblclis.DNICLI}" style="width: 80px; alignment-adjust: central;column-rule-color: royalblue   ">
+                            <h:outputText value="#{tblclis.DNICLI}"  />
+                        </p:column>
+
+                        <p:column headerText="SEXO" sortBy="#{tblclis.SEXCLI}" filterBy="#{tblclis.SEXCLI}" >
+                            <h:outputText value="#{tblclis.SEXCLI}" >
+                                <f:converter converterId="sexoConverter"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="TÉLEFONO" sortBy="#{tblclis.TELFCLI}" filterBy="#{tblclis.TELFCLI}" >
+                            <h:outputText value="#{tblclis.TELFCLI}" />
+                        </p:column>
+
+
+                        <f:facet name="footer">
+                            EN TOTAL HAY #{fn:length(clienteC.listadoCli)} REGISTROS.
+                        </f:facet>
+                    </p:dataTable>
+                </center>
+
+
+                <p:contextMenu for="tablaCli">
+                    <p:menuitem value="Modificar" icon="pi pi-pencil" oncomplete="PF('wdlgDatos').show()" update=":formDialog">
+                    </p:menuitem>
+                    <p:menuitem value="Desactivar" icon="pi pi-trash" actionListener="#{clienteC.Desactivar()}" update=":tabla:tablaCli mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas Desactivarlo?"/>                         
+                    </p:menuitem>
+                    <p:menuitem value="Eliminar" icon="pi pi-trash" actionListener="#{clienteC.eliminar()}" update=":tabla:tablaCli mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas eliminarlo?"/>                         
+                    </p:menuitem>
+                </p:contextMenu>
+
+            </h:form>
+
+            <p:dialog header="MODIFICAR DATOS DEL CLIENTE" widgetVar="wdlgDatos" id="dlgDatos">
+                <h:form id="formDialog">
+                    <p:panelGrid id="modificarCliente" columns="3">
+
+                        <p:outputLabel for="nombre" value="NOMBRE: " /> 
+                        <p:inputText style="width: 230px" 
+                                     id="nombre" value="#{clienteC.cli.NOMCLI}"
+                                     required="true" requiredMessage="Falta nombre"
+                                     maxlength="30">
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgNombres" event="keyup" delay="800"  />
+                            <p:tooltip for="nombre" value="Ingrese sus nombres" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgNombres" for="nombre" display="text" />
+
+                        <p:outputLabel for="apellido" value="APELLIDO: " /> 
+                        <p:inputText style="width: 230px" 
+                                     id="apellido" value="#{clienteC.cli.APECLI}" 
+                                     required="true" requiredMessage="Falta apellido"
+                                     maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                            <p:ajax update="msgApellidos" event="keyup" delay="800"  />
+                            <p:tooltip for="apellido" value="Ingrese sus 2 apellidos" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgApellidos" for="apellido" display="text" />
+
+                        <p:outputLabel for="dni" value="DNI: " />
+                        <p:inputText style="width: 230px"
+                                     id="dni" value="#{clienteC.cli.DNICLI}"
+                                     required="true" requiredMessage="Falta DNI"
+                                     maxlength="8" >
+                            <f:validateLength minimum="8"/>
+                            <p:keyFilter regEx="/[0-9]/" />              
+                            <p:ajax  update="msgDni" delay="800" event="keyup" />
+                            <p:tooltip for="dni" value="Ingrese su Dni" trackMouse="focus"/>
+                        </p:inputText>
+                        <p:message id="msgDni" for="dni" showDetail="true" display="text" />
+
+                        <p:outputLabel for="sexo" value="SEXO: " />
+                        <p:selectOneRadio id="sexo" value="#{clienteC.cli.SEXCLI}"  
+                                          required="true" requiredMessage="Falta definir género">
+                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                            <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            <p:ajax update="msgSexo" event="keyup" delay="800"  />
+                        </p:selectOneRadio>
+                        <p:message id="msgSexo" for="sexo" display="text" />
+
+                        <p:outputLabel for="telefono" value="TELEFONO: " /> 
+                        <p:inputText id="telefono" value="#{clienteC.cli.TELFCLI}" 
+                                     required="true" requiredMessage="Falta su # teléfonico"
+                                     maxlength="9">
+                            <f:validateLength minimum="9"/>
+                            <p:keyFilter regEx="/[0-9]/"/>
+                            <!--                            <f:validator validatorId="vCelular" />-->
+                            <p:ajax update="msgTelefono" event="keyup" delay="800"  />
+                            <p:tooltip for="telefono" value="Ingresar # Teléfonico" trackMouse="focus"/>
+                        </p:inputText>                   
+                        <p:message id="msgTelefono" for="telefono"/>
+
+                        <p:commandButton value="Guardar" actionListener="#{clienteC.modificar()}" 
+                                         update=":tabla:tablaCli mensaje" oncomplete="PF('wdlgDatos').hide();" >
+                            <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();" />
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:body>
+    </ui:define>
+
+</ui:composition>

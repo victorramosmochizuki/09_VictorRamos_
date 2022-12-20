@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Plantilla.xhtml">
+
+
+    <ui:define name="content">
+
+
+
+        <h:head>
+            <title>MAESTRO CONSULTA DETALLE</title>
+            <f:event listener="#{consultasC.listar()}" type="preRenderView" />
+        </h:head>
+        <h:body>
+
+            <center>
+                <h1>CONSULTA-DETALLE</h1>
+            </center>
+
+            <p:growl id="mensaje" showDetail="true" />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+
+
+
+
+
+
+
+
+            <!--Listado de ConsultaBoleta-->
+
+            <h:form id="tablaConsulta">
+
+
+
+                <p:dataTable var="consulta" id="dataConsulta" value="#{consultasC.lstConsulta}"
+
+                             selectionMode="single" selection="#{consultasC.selectedCta}" rowKey="#{consulta.IDBOLE}" sortBy="#{consulta.IMPBOLE}"
+
+                             paginator="true" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} datos"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+
+
+                    <f:facet name= "header"> VENTAS REALIZADAS</f:facet>
+
+                    <p:column headerText="IDBOLE"
+                              sortBy="#{consulta.IDBOLE}" filterBy="#{consulta.IDBOLE}">
+                        <h:outputText value="#{consulta.IDBOLE}" />
+                    </p:column>
+
+                    <p:column headerText="FECHA"
+                              sortBy="#{consulta.FECHEMBOLE}" filterBy="#{consulta.FECHEMBOLE}">
+                        <h:outputText value="#{consulta.FECHEMBOLE}" />
+                    </p:column>
+
+                    <p:column headerText="CLIENTE" 
+                              sortBy="#{consulta.IDCLI}" filterBy="#{consulta.IDCLI}">
+                        <h:outputText value="#{consulta.IDCLI}"
+                                       />
+                    </p:column>
+
+                    <p:column headerText="VENDEDOR"
+                              sortBy="#{consulta.IDVEN}" filterBy="#{consulta.IDVEN}">
+                        <h:outputText value="#{consulta.IDVEN}" />
+                    </p:column>
+
+                    <p:column headerText="IMPORTE TOTAL"
+                              sortBy="#{consulta.IMPBOLE}" filterBy="#{consulta.IMPBOLE}">
+                        <h:outputText value="#{consulta.IMPBOLE}" />     
+                    </p:column>
+
+
+
+
+
+                    <f:facet name="footer">
+                        EN TOTAL HAY #{fn:length(consultasC.lstConsulta)} REGISTROS.
+                    </f:facet>
+                </p:dataTable>
+
+                
+                
+                
+                
+
+                <br/>
+                
+                
+                
+                
+
+
+                <p:dataTable id="tblDetalle" var="consultadet" value="#{consultasC.lstConsulta}"  emptyMessage="Se tiene la lista sin detalle">
+
+
+                    <f:facet name="header">Detalle del ticket  </f:facet>
+
+
+                    <p:column headerText="IDBODE" style="width: 5%;" >
+                        <h:outputText value="#{consultadet.IDBODE}" />
+                    </p:column>
+                    <p:column headerText="CANTBODE">
+                        <h:outputText value="#{consultadet.CANTBODE}" />
+                    </p:column>
+                    <p:column headerText="IDBOLE">
+                        <h:outputText value="#{consultadet.IDBOLE}" />
+                    </p:column>
+                    <p:column headerText="IDMED">
+                        <h:outputText value="#{consultadet.IDMED}" />
+                    </p:column>
+                    <p:column headerText="SUBTOTAL">
+                        <h:outputText value="#{consultadet.SUBTOT}" />
+                    </p:column>                                        
+
+                    <f:facet name="footer">
+                        Hay en total #{fn:length(detVentaC.lstDetVenta)} medicamentos.
+                    </f:facet>
+                </p:dataTable>
+
+
+
+
+
+
+                <!--  Listado del Proveedor -->
+            </h:form>
+
+
+
+        </h:body>
+
+
+
+    </ui:define>
+</ui:composition>

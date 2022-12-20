@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj" showDetail="true" >
+            <p:autoUpdate/>
+        </p:growl>
+        <h1><b><center  style = "font-family:courier,arial,helvética;"><h:outputLabel value="VENTA"/></center></b></h1> 
+
+        <h:form >
+            <p:panelMenu style="width:250px">
+                <p:submenu label="Tablas Maestras" >
+                    <p:menuitem value="Vendedor" icon="pi pi-save" url="./vendedor.xhtml" />
+                    <p:menuitem value="Cliente" icon="pi pi-save" url="./cliente.xhtml" />
+                    <p:menuitem value="Medicamento" icon="pi pi-save" url="./medicamento.xhtml" />
+                    <p:menuitem value="Proveedor" icon="pi pi-save" url="./proveedor.xhtml" />
+                </p:submenu>
+                <p:separator />
+                <p:submenu label="Tablas Transaccionales" >
+                    <p:menuitem value="Venta" icon="pi pi-save" url="./BoletaDetalleV.xhtml" />                    
+                </p:submenu>
+                <p:separator />
+                <p:submenu label="Consulta-Detalle" >
+                    <p:menuitem value="Consulta-Detalle" icon="pi pi-save" url="./Consulta.xhtml" />                    
+                </p:submenu>
+            </p:panelMenu>
+        </h:form>
+
+        
+        
+        <h:form id="frmVentDet">
+            <p:panelGrid columns="2" style="margin: 0 auto; ">
+
+                <p:outputLabel value="Vendedor" for="vend"/>
+                <p:selectOneMenu id="vend" value="#{boletaC.boleta.vendedor.IDVEN}" style="width:360px" 
+                                 filter="true" filterMatchMode="contains" required="true" requiredMessage="Requiere Vendedor" >
+                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                    <f:selectItems value="#{vendedorC.listadoVen}" var="vende"
+                                   itemValue="#{vende.IDVEN}" 
+                                   itemLabel="#{vende.NOMVEN} #{vende.APEVEN}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Cliente" for="clie"/>
+                <p:selectOneMenu id="clie" value="#{boletaC.boleta.cliente.IDCLI}" style="width:360px" 
+                                 filter="true" filterMatchMode="contains" required="true" requiredMessage="Requiere Cliente" >
+                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                    <f:selectItems value="#{clienteC.listadoCli}" var="cli"
+                                   itemValue="#{cli.IDCLI}" 
+                                   itemLabel="#{cli.NOMCLI} #{cli.APECLI}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Medicamento" for="medi"/>
+                <p:selectOneMenu id="medi" value="#{boletaC.boletaDetalle.medicamento.IDMED}" style="width:360px" 
+                                 filter="true" filterMatchMode="contains" required="true" requiredMessage="Requiere Medicamento" >
+                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                    <f:selectItems value="#{medicamentoC.listadomed}" var="medic"
+                                   itemValue="#{medic.IDMED}" 
+                                   itemLabel="#{medic.COMMED}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel  value="Cantidad *"/>
+                <p:inputText placeholder="Escribe aquí" id="cantidad" value="#{boletaC.boletaDetalle.CANTBODE}" 
+                             required="true" requiredMessage="Falta Cantidad" maxlength="30" style="width: 360px">
+                    <p:keyFilter regEx="/[1-9]/" />
+                </p:inputText>
+
+            </p:panelGrid>
+            <center >
+                <p:commandButton value="Agregar" actionListener="#{boletaC.agregarFila()}" 
+                                 update="frmVentDet,:frmVentaDetalle"  icon="ui-icon-plus" />
+            </center>
+        </h:form>
+
+        <h:form id="frmVentaDetalle">
+            <center >
+                <p:dataTable style="width: 90%" var="vendet" id="tablaVentaDetalle" value="#{boletaC.listaBoletaDetalle}"
+                             rows="5" paginator="true" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,15,20">
+
+                    <p:column headerText="COMERCIAL">
+                        <h:outputText value="#{vendet.medicamento.COMMED}"/>
+                    </p:column>
+
+                    <p:column headerText="CANTIDAD">
+                        <h:outputText value="#{vendet.CANTBODE}"/>
+                    </p:column>
+
+                    <p:column headerText="SUBTOTAL">
+                        <h:outputText value="#{vendet.SUBTOT}">
+                            <f:convertNumber type="currency" currencySymbol="S/. " minFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="ELIMINAR" style="width: 80px" exportable="false">
+                        <p:commandButton icon="ui-icon-
+                                         trash" actionListener="${boletaC.eliminarFila(vendet)}"
+                                         update="frmVentaDetalle">
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </center>
+            <p:separator/>
+            <h:panelGrid id="total" columns="2" style="font-size: 24px; margin: 0 auto">
+                TOTAL 
+                <h:outputText
+                    value="#{boletaC.boleta.IMPBOLE}">
+                    <f:convertNumber type="currency" currencySymbol="S/. " minFractionDigits="2"/>
+                </h:outputText>
+            </h:panelGrid>
+            <p:separator/>
+
+        </h:form>
+
+        <h:form id="frmenvio">
+            <center >
+                <p:panelGrid columns="5">
+                    <p:commandButton actionListener="#{boletaC.registrarVenta()}" value="Registrar" icon="ui-icon-check"
+                                     style="width: 150px; height: 50px" update="frmVentDet :frmenvio :frmVentaDetalle"/>
+                </p:panelGrid>
+            </center>
+
+            <p:fieldset legend="Ventas" toggleable="true">
+                <p:dataTable var="vendetfin" id="tablaVentaDetalleFinal" value="#{boletaC.listaBoletaDetalleFinal}"
+                             rows="5" paginator="true" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,15,20">
+                    <p:column headerText="CLIENTE">
+                        <h:outputText value="#{vendetfin.NOMCLI}"/>
+                    </p:column>
+                    <p:column headerText="PRODUCTO">
+                        <h:outputText value="#{vendetfin.medicamento.COMMED}"/>
+                    </p:column>
+                    <p:column headerText="CANTIDAD">
+                        <h:outputText value="#{vendetfin.CANTBODE}"/>
+                    </p:column>
+                    <p:column headerText="PRECIO">
+                        <h:outputText value="#{vendetfin.SUBTOT}">
+                            <f:convertNumber type="currency" currencySymbol="S/. " minFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="FECHA">
+                        <h:outputText value="#{vendetfin.boleta.FECHEMBOLE}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+        <script src="js/calendar.js" type="text/javascript"></script>
+        <link href="css/toggleswitch.css" rel="stylesheet" type="text/css"/>
+    </h:body>
+
+</html>
+
+

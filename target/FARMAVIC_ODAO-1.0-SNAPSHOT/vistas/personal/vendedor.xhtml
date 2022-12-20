@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Personal.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <title>Listado de Vendedores</title>
+            <f:event listener="#{vendedorC.listar()}" type="preRenderView" />
+            <f:event listener="#{usuarioC.seguridadSesion()}" type="preRenderView"></f:event>
+        </h:head>
+        <h:body >
+
+            <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+            <center>
+                <h1>Mantenimiento de Vendedores</h1>
+            </center>
+
+            <p:growl id="mensaje" severity="info, fatal" showDetail="true" showSummary="true"  />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+
+            <h:form id="tabla" >
+                <!--  Listado del Cliente -->
+                <center>
+                    <p:dataTable style="width: 100%" var="tblvend" id="tablaVen" value="#{vendedorC.listadoVen}" rows="10" 
+                                 paginator="true" widgetVar="tblVendedor"
+                                 selection="#{vendedorC.ven}" 
+                                 resizableColumns="true" 
+                                 selectionMode="single"
+                                 rowKey="#{tblvend.IDVEN}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                                 rowStyleClass="registroVinculado">
+
+
+                        <f:facet name="header">
+                            <div style="float: left">
+                                <h:form>
+                                    <p:outputLabel value="FILTRO POR: " style="align-content: center; alignment-adjust: central; color:black font-weight:bold "/>
+                                    <center>
+                                        <p:selectOneMenu value="#{vendedorC.listado}" style="width: 100px">
+                                            <f:selectItem itemValue="1" itemLabel="Activos"/> 
+                                            <f:selectItem itemValue="2" itemLabel="Inactivos"/>
+                                            <f:selectItem itemValue="3" itemLabel="Todos"/>
+                                            <p:ajax listener="#{vendedorC.listar()}" update=":tabla:tablaVen"/>
+                                        </p:selectOneMenu>
+                                    </center>
+                                </h:form>
+                            </div>
+                            <center>
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar:"/>
+                                    <h:inputText id="globalFilter" onkeyup="PF('tblVendedor').filter()" style="width:200px"/>
+                                </p:outputPanel>
+                            </center>
+                        </f:facet>
+
+                        <center>
+                            <f:facet name= "header"> LISTADO DE VENDEDORES </f:facet>
+                        </center>
+
+                        <p:column headerText="NOMBRE" sortBy="#{tblvend.NOMVEN}" filterBy="#{tblvend.NOMVEN}" > 
+                            <h:outputText value="#{tblvend.NOMVEN}" /> 
+                        </p:column>
+                        <p:column headerText="APELLIDO" sortBy="#{tblvend.APEVEN}" filterBy="#{tblvend.APEVEN}" > 
+                            <h:outputText value="#{tblvend.APEVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DNI" sortBy="#{tblvend.DNIVEN}" filterBy="#{tblvend.DNIVEN}" style="width: 80px"> 
+                            <h:outputText value="#{tblvend.DNIVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="EMAIL" sortBy="#{tblvend.EMAVEN}" filterBy="#{tblvend.EMAVEN}" style="width: 80px"> 
+                            <h:outputText style="width: 150%" value="#{tblvend.EMAVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="TELÉFONO" sortBy="#{tblvend.TELFVEN}" filterBy="#{tblvend.TELFVEN}" style="width: 90px"> 
+                            <h:outputText value="#{tblvend.TELFVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DIRECCIÓN" sortBy="#{tblvend.DIRVEN}" filterBy="#{tblvend.DIRVEN}" > 
+                            <h:outputText style="width: 50px" value="#{tblvend.DIRVEN}" /> 
+                        </p:column>
+
+                        <p:column headerText="DISTRITO" style="width: 70px" > 
+                            <h:outputText value="#{tblvend.IDUBI}" /> 
+                        </p:column>
+
+                        <f:facet name="footer">
+                            EN TOTAL HAY #{fn:length(vendedorC.listadoVen)} REGISTROS.
+                        </f:facet>
+                    </p:dataTable>
+                </center>
+                <p:contextMenu for="tablaVen">
+                    <p:menuitem value="Modificar" icon="pi pi-pencil" oncomplete="PF('wdlgDatos').show()" update=":formDialog">
+                    </p:menuitem>
+                    <p:menuitem value="Desactivar" icon="pi pi-trash" actionListener="#{vendedorC.Desactivar()}" update=":tabla:tablaVen mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas Desactivarlo?"/>                         
+                    </p:menuitem>
+                    <p:menuitem value="Eliminar" icon="pi pi-trash" actionListener="#{vendedorC.eliminar()}" update=":tabla:tablaVen mensaje">
+                        <p:confirm header="Confirmación" message="¿Deseas eliminarlo?"/>                         
+                    </p:menuitem>
+                </p:contextMenu>
+            </h:form>
+
+            <p:dialog header="MODIFICAR DATOS DEL VENDEDOR" widgetVar="wdlgDatos" id="dlgDatos">
+                <h:form id="formDialog">
+                    <p:panelGrid id="modificarVendedor" columns="2">
+
+                        <p:outputLabel value="NOMBRE: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.NOMVEN}" maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                        </p:inputText>
+
+
+                        <p:outputLabel value="APELLIDO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.APEVEN}" maxlength="30" >
+                            <p:keyFilter regEx="/[A-z_ñ_á_é_í_ó_ú_Á_É_Í_Ó_Ú_' ']/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="DNI: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.DNIVEN}" maxlength="8" >
+                            <p:keyFilter regEx="/[0-9]/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="EMAIL: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.EMAVEN}" maxlength="8" />
+
+                        <p:outputLabel value="TELÉFONO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.TELFVEN}" maxlength="9" >
+                            <p:keyFilter regEx="/[0-9]/" />
+                        </p:inputText>
+
+                        <p:outputLabel value="DIRECCIÓN: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.DIRVEN}" maxlength="50" />
+
+                        <p:outputLabel value="DISTRITO: " /> 
+                        <p:inputText style="width: 230px" value="#{vendedorC.ven.IDUBI}" maxlength="50" />
+
+
+                        <p:commandButton value="Guardar" actionListener="#{vendedorC.modificar()}" 
+                                         update=":tabla:tablaVen mensaje" oncomplete="PF('wdlgDatos').hide();" >
+                            <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();" />
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:body>
+    </ui:define>
+
+</ui:composition>
+

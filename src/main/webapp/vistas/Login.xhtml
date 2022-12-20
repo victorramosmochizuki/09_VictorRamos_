@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="./css/login.css" />
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="faces/resources/css/loginv2.css"/>
+        <title>Login FARMAVIC</title>
+        <!--Bloqueo--> 
+        <script src="jquery-3.2.1.min.js"></script>
+        <script src="jquery.blockUI.js"></script>
+        <script src="./validator_1.js"></script>
+    </h:head>
+    <p:growl id="mensajes" severity="info,fatal,warn,error" showSummary="true" showDetail="true"/>
+
+    <h:body id="bodyto">
+
+        <div class="container">
+            <div class="forms-container">
+                <div class="signin-signup">
+                    <p:growl id="mensaje" showDetail="true" />
+                    <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+
+                    <h:form id="fmrIngresar" class="sign-in-form" prependId="false">
+                        <img src="faces/imagenes/LOGO_FARMAVIC.png" class="image" alt="" style="width:60%; height:60%;"/>
+                        <h1 class="title" style="color:white; font-weight:bold; font-size:40px">¡BIENVENIDO!</h1>
+                        <h1 class="title" style="color:white; font-size:20px">Sistema de venta de medicamentos</h1>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            <p:inputText  id="Usuario" value="#{usuarioC.usuario.NOMUSU}" placeholder="Usuario" required="true"  requiredMessage="Ingrese su usuario"/>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <p:password  id="Contraseña" value="#{usuarioC.usuario.PWUSU}" placeholder="Contraseña" feedback="true" required="true"     requiredMessage="Ingrese su contraseña"/>
+                        </div>
+                        <p:captcha label="Captcha" requiredMessage="Falta verificar Captcha" rendered="#{usuarioC.captcha == 1 eq true}"/>
+                        <!--<p:commandButton   value="INGRESAR" action="#{usuarioC.acceso()}"  update="fmrIngresar mensajes" style="font-weight:bold; font-size:20px" onkeyup="v"/>-->
+
+
+                        <p:commandButton id="btnlogin" actionListener="#{usuarioC.acceso()}"
+
+                                         value="INICIAR SESIÓN" update="fmrIngresar,:mensajes,btnlogin, mensaje"
+                                         onstart="if(#{usuarioC.bloquear}){PF('widgetBlock').show()}"
+                                         oncomplete="PF('widgetBlock').hide()"
+                                         class="boton"/>
+
+
+                        <p:blockUI block="bodyto" widgetVar="widgetBlock">
+                            <p:graphicImage value="faces/imagenes/carga.gif"></p:graphicImage>
+                        </p:blockUI>
+                        <div class="card">
+                            <style type="text/css">
+                                button.ui-button {
+                                    margin-right: .5rem;
+                                }
+                            </style>
+
+                            <p:commandButton value="¿HAS OLVIDADO TU CONTRASEÑA?" onclick="PF('dlg2').show();" style="font-weight:bold" styleClass="ui-button-secondary"/>
+
+
+                            <!--                            <br></br>
+                                                        <div>
+                                                            <p:commandButton value="¿HAS OLVIDADO TU CONTRASEÑA?" onclick="PF('dlg2').show();" style="font-weight:bold" />
+                                                        </div>
+                                                        <div>
+                                                            <p:commandButton value="AYUDA" style="font-weight:bold" onclick="PF('dlg3').show();" />
+                            
+                                                        </div>-->
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <p:dialog header="CAMBIAR CONTRASEÑA" widgetVar="dlg2" resizable="false" modal="true" >
+
+            <h:form id="formularioCambioPass">
+                <script type="text/javascript">
+                    function limpiarForm()
+                    {
+                        document.getElementById("formularioCambioPass").reset();
+                    }
+                </script>
+                <p:panelGrid columns="1" style="table-layout:fixed; text-align: center">
+                    <h:outputText value="Para cambiar la contraseña en caso no la &lt;br /&gt; recuerde, es necesario que ingrese su&lt;br /&gt;usuario (DNI) y su correo electrónico" escape="false" />  
+                </p:panelGrid>
+                <br></br>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="NOMBRE"/>
+                    <p:inputText id="DNI" value="#{usuarioC.usuario.NOMUSU}" placeholder="DNI" required="true" requiredMessage="Ingrese el DNI" maxlength="20">
+                        
+                    </p:inputText>
+                    <p:outputLabel value="EMAIL"/>
+                    <p:inputText id="emails" value="#{usuarioC.usuario.EMAUSU}" placeholder="CORREO ELECTRONICO" required="true" requiredMessage="Ingrese el correo electronico">
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
+                    <p:outputLabel value="NUEVA CONTRASEÑA"/>
+                    <p:fragment>
+                        <p:commandButton value="Buscar" action="#{usuarioC.passAleatorio()}"  update="passs">
+                        </p:commandButton>&#160;
+
+                        <p:password id="passs" value="#{usuarioC.usuario.PWUSU}" maxlength="16" required="true" requiredMessage="Rellene la contraseña" 
+                                    toggleMask="true" redisplay="true"  feedback="true"
+                                    promptLabel="Ingresa tu contraseña" weakLabel="Débil"
+                                    goodLabel="Buena" strongLabel="Fuerte">
+                        </p:password>
+                    </p:fragment>
+
+                    <p:commandButton id="btncambio" actionListener="#{usuarioC.modificar()}"
+                                     value="CAMBIAR CONTRASEÑA" 
+                                     update=":mensajes, btncambio" 
+                                     oncomplete="limpiarForm(), PF('dlg2').hide()"/>
+
+
+
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dlg2').hide()" style="background-color: #D32F2F"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+    </h:body>
+</html>
+

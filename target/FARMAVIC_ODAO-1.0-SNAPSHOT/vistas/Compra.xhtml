@@ -1,0 +1,331 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="./Plantilla.xhtml">
+
+
+    <ui:define name="content">
+
+        <h:head>
+            <title>Listado de Compra</title>
+            <f:event listener="#{compraC.listar()}" type="preRenderView" />
+        </h:head>
+        <h:body>
+
+            <center>
+                <h1>Mantenimiento de COMPRA</h1>
+            </center>
+            
+            <p:growl id="mensaje" severity="info, fatal" showDetail="true" showSummary="true"  />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+            
+
+            <h:form id="frmCompra">
+
+                <center>
+
+                    <p:panelGrid>
+
+
+                        <f:facet name= "header">Ingrese datos de la compra</f:facet>
+                        
+                        <br>
+                        
+                        </br>
+
+
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel  value ="Proveedor:" for="" /> <!-- for="prov"-->   
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value ="#{compraC.compra.proveedor.ide}" filter="true" filterMatchMode="contains"> <!--FILTRO DE BUSCAR-->
+
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione una persona" itemValue="#{null}"/>
+                                    <f:selectItems value="#{proveedorC.listadoPro}"
+                                                   var="prov"
+                                                   itemLabel="#{prov.nombre}" itemValue="#{prov.ide}" />
+
+
+                                </p:selectOneMenu> 
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value ="Medicamento" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value ="#{compraC.compra.medicamento.IDMED}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Seleccione un medicamento" itemValue=""/>
+                                    <f:selectItems value="#{medicamentoC.listadomed}"
+                                                   var="med"
+                                                   itemLabel="#{med.GENMED}" itemValue="#{med.IDMED}" />
+                                </p:selectOneMenu> 
+                            </p:column>
+
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="CANTIDAD: " />
+                            </p:column>
+                            <p:column>
+                                <p:spinner style="width: 230px"
+                                             id="cantidad" value="#{compraC.compra.CANTCOM}"
+                                             requiredMessage="Falta Cantidad" maxlength="30">
+                                    <p:keyFilter regEx="/[0-9]/" />
+
+                                </p:spinner>
+                            </p:column>
+
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Importe total " /> 
+                            </p:column>
+                            <p:column>
+                                <p:inputNumber style="width: 230px"
+                                               id="importe" value="#{compraC.compra.IMPCOM}"  
+                                               maxlength="5" symbol=" S/."
+                                               required="true" requiredMessage="Ingrese el Importe">                    
+                                    <p:keyFilter regEx="/[0-9]/" />
+
+                                </p:inputNumber>
+
+                            </p:column>
+
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value ="Fecha de emision" />
+
+                            </p:column>
+                            <p:column>
+                                <p:calendar style="width: 260px" placeholder="dia-mes-año" mask="true"
+                                            value="#{compraC.compra.FECHCOM}"
+                                            navigator="true" yearRange="c-100:c" pattern="dd-MM-yyyy"
+                                            required="true" maxdate="today" showButtonPanel="true"/>
+
+                            </p:column>
+
+
+                        </p:row>
+
+                    </p:panelGrid>
+
+                    <br/>
+
+                    <p:commandButton value ="Registrar" actionListener="#{compraC.registrar()}" update=":tablaCompra mensaje"/>
+                    <p:commandButton value ="Modificar" actionListener="#{compraC.modificar()}" update="frmCompra, :tablaCompra"/>
+
+                </center>
+
+
+
+            </h:form>
+            
+            
+            <br/>
+
+            <!--LISTADO DE COMPRA-->
+
+            <center>
+
+                <h:form id="formDescargaCompra">
+                    <p:commandButton value="Exportar Ticket de Compra" actionListener="#{compraC.reporteCompra()}" 
+                                     ajax="false" style="background-color:yellowgreen;color:black;font-weight:bold;"/>
+                </h:form> 
+                
+                
+                
+
+                
+                
+
+
+            </center>
+            
+            
+            
+
+
+
+            <!--Listado de DE TABLA  COMPRA-->
+            <h:form id="tablaCompra">
+
+
+                <p:dataTable id="tablacom" var="compra"  value="#{compraC.lstCompra}" rows="10"
+
+                             paginator="true" 
+
+                             widgetVar="tblProveedor" selection="#{proveedorC.pro}" 
+                             resizableColumns="true" 
+                             selectionMode="single"
+                             rowKey="#{tblpro.ide}"
+
+
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                             rowStyleClass="registroVinculado">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Buscar:"/>
+                            <h:inputText id="globalFilter" onkeyup="PF('tblProveedor').filter()" style="width:200px"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <f:facet name= "header"> LISTADO DE COMPRAS </f:facet>
+
+
+
+                    <p:column headerText="FECHA">
+                        <h:outputText value="#{compra.FECHCOM}" />
+                    </p:column>
+
+                    <p:column headerText="PROVEEDOR" >
+                        <h:outputText value="#{compra.proveedor.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="MEDICAMENTO">
+                        <h:outputText value="#{compra.medicamento.GENMED}" />
+                    </p:column>
+
+                    <p:column headerText="CANTIDAD">
+                        <h:outputText value="#{compra.CANTCOM}" />
+                    </p:column>
+
+                    <p:column headerText="IMPORTE TOTAL">
+                        <h:outputText value="#{compra.IMPCOM}" >
+                            <f:convertNumber type="currency" currencySymbol="S/. " minFractionDigits="2"/>
+                        </h:outputText>                        
+                    </p:column>
+
+
+                    <p:column headerText="Acciones">
+                        <p:commandButton value ="eliminar" actionListener="#{compraC.eliminar(compra)}" update=":tablaCompra" />
+
+                        <p:commandButton value ="obtener" actionListener="#{compraC.obtenerDatos(compra)}" update=":frmCompra"/>
+
+                    </p:column>
+
+
+
+
+
+                    <f:facet name="footer">
+                        EN TOTAL HAY #{fn:length(compraC.lstCompra)} REGISTROS.
+                    </f:facet>
+                </p:dataTable>
+
+                <!--Llama a la datatable  id-->
+                <p:contextMenu for="tablacom">
+
+
+                    <p:menuitem value="Modificar" icon="pi pi-pencil" oncomplete="PF('wdlgDatos').show()" update=":Frmodificar" >
+                    </p:menuitem>
+                    <p:menuitem value="Eliminar" icon="pi pi-trash" actionListener="#{compraC.eliminar(com)}" update=":tablaCompra">
+                        <p:confirm header="Confirmación" message="¿Deseas eliminar?"/>                         
+                    </p:menuitem>
+
+
+
+                </p:contextMenu>
+
+
+
+
+
+
+            </h:form>
+
+
+
+
+            <!--OBTIENE LOS DATOS DE LA COMPRA-->
+
+
+            <p:dialog header="Datos de la compra" widgetVar="wdlgDatos" id="dlgDatos">
+                <h:form id="Frmodificar" >
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Nombre del proveedor" /> 
+                        <p:selectOneMenu value ="#{compraC.compra.IDPROV}" >
+
+                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione una persona" itemValue="#{null}"/>
+                            <f:selectItems value="#{proveedorC.listadoPro}"
+                                           var="prov"
+                                           itemLabel="#{prov.nombre}" itemValue="#{prov.ide}" />
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value ="Nombre del Medicamento" />
+                        <p:selectOneMenu value ="#{compraC.compra.IDMED}" >
+                            <f:selectItem itemLabel="Seleccione un medicamento" itemValue=""/>
+                            <f:selectItems value="#{medicamentoC.listadomed}"
+                                           var="med"
+                                           itemLabel="#{med.GENMED}" itemValue="#{med.IDMED}" />
+                        </p:selectOneMenu>
+
+
+
+                        <p:outputLabel value="CANTIDAD: " />  
+                        <p:inputText style="width: 230px"
+                                     id="cantidad" value="#{compraC.compra.CANTCOM}"
+                                     requiredMessage="Falta Cantidad" maxlength="30">
+                            <p:keyFilter regEx="/[1-9]/" />
+
+                        </p:inputText>
+
+                        <p:outputLabel value="Importe total " />  
+                        <p:inputNumber style="width: 230px"
+                                       id="importe" value="#{compraC.compra.IMPCOM}"  
+                                       maxlength="5"
+                                       required="true" requiredMessage="Ingrese el Importe">                    
+                            <p:keyFilter regEx="/[0-9]/" />
+
+                        </p:inputNumber>
+                        <!--                    <p:inputText style="width: 230px"
+                                                         id="importe" value="#{compraC.compra.IMPCOM}"  
+                                                         maxlength="5"
+                                                         required="true" requiredMessage="Ingrese el Importe">                    
+                                                <p:keyFilter regEx="/[0-9]/" />
+                                            </p:inputText>-->
+
+                        <p:outputLabel value ="Fecha de emision" />
+                        <p:calendar style="width: 260px" placeholder="dia-mes-año" mask="true"
+                                    value="#{compraC.compra.FECHCOM}"
+                                    navigator="true" yearRange="c-100:c" pattern="dd-MM-yyyy"
+                                    required="true" maxdate="today" showButtonPanel="true"/>
+
+
+                        <p:commandButton value ="Modificar" actionListener="#{compraC.modificar()}" update="frmCompra, :tablaCompra"/>
+
+
+
+                    </p:panelGrid>
+
+
+                </h:form>
+
+            </p:dialog>
+
+
+
+
+        </h:body>
+
+
+    </ui:define>
+</ui:composition>
